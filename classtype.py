@@ -1,5 +1,5 @@
 import copy
-from ast import NodeVisitor, parse, dump, NodeVisitor
+from ast import NodeVisitor, parse, dump, NodeVisitor, alias
 from ast import ClassDef, ImportFrom, Import
 
 _const_basic_type = [
@@ -22,6 +22,10 @@ class ClassType(NodeVisitor):
         super().visit(self.tree)
         print(self.typeset)
 
+    def get_class_name(self, node: alias):
+        modulename = super().visit(node)
+        return modulename
+
     def visit_ClassDef(self, node: ClassDef):
         self.typeset.append(node.name)
 
@@ -35,8 +39,15 @@ class ClassType(NodeVisitor):
 
     def visit_Import(self, node: Import):
         print("Import: ", node.names)
-        
+        filename = self.get_class_name(node) + ".py"
+        fd = open(file=filename, mode="r+")
+        source = fd.read()
+        tree = parse(source, filename, mode="exec")
+        super().visit(tree)
         pass
+
+    def visit_alias(self, node: alias):
+        return node.name
 
     def add_type(self, type_name):
         self.typeset.append(type_name)
