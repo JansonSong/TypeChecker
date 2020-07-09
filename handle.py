@@ -86,7 +86,7 @@ class Handle(NodeVisitor):
 
 
 def main():
-    handle = Handle('test.py')
+    handle = Handle('testtre.py')
     handle.check()
 
 if __name__ == '__main__':

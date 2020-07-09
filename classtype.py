@@ -8,6 +8,7 @@ _const_basic_type = [
     list, dict
 ]
 
+
 class ClassType(NodeVisitor):
     def __init__(self, filename=""):
         self.filename = filename
@@ -38,6 +39,7 @@ class ClassType(NodeVisitor):
         pass
 
     def visit_Import(self, node: Import):
+        pass
         print("Import: ", node.names)
         filename = self.get_class_name(node) + ".py"
         fd = open(file=filename, mode="r+")
