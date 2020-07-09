@@ -13,6 +13,7 @@ class ImportModule:
         self.filepath = filepath
         self.classdef = classdef # use hj and cx's typedef
         self.variates = variates # use hj and cx's typedef
+        # TODO: might need a list to store functions
 
 class CurFileImport:
     def __init(self, curfile):
@@ -101,7 +102,7 @@ class ImportParse(NodeVisitor):
 
     
 def main():
-    handle = ImportParse('testtre.py')
+    handle = ImportParse('test/testtre.py')
     handle.check()
 
 if __name__ == '__main__':
