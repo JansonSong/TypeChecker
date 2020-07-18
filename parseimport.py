@@ -93,7 +93,6 @@ class ImportParse(NodeVisitor):
             modulename, asname, filepath, typemodule = self.get_module_info(name, self.curdirpath)
             if modulename is None:
                 continue
-            print(modulename, asname, filepath)
             self.moduleList.append(ImportContent(modulename, asname, filepath, typemodule))
         
 
@@ -111,7 +110,10 @@ class ImportParse(NodeVisitor):
                 curdirpath = os.path.dirname(curdirpath)
             isfolder = True
         else:
-            path = self.curdirpath + "/" + modulename
+            dirlist = modulename.split('.')
+            path = self.curdirpath
+            for diritem in dirlist:
+                path = path + '/' + diritem
             if os.path.exists(path):
                 curdirpath = path
                 isfolder = True
@@ -126,7 +128,7 @@ class ImportParse(NodeVisitor):
                         continue
                     self.moduleList.append(ImportContent(modulename, asname, filepath, typemodule))
                 else:
-                    
+
                     content.append({'name': name.name, 'asname': name.asname})
             
             self.moduleList.append(ImportContent(modulename, None, filepath, typemodule, True, content))
@@ -168,7 +170,7 @@ class ImportParse(NodeVisitor):
 
     
 def main():
-    handle = ImportParse('C:/Users/Administrator/Desktop/python project/TypeChecker/test/test.py')
+    handle = ImportParse('C:/Users/Administrator/Desktop/python project/pyStaticTypeChecker/testAst/test_class.py')
     handle.check()
 
 if __name__ == '__main__':
